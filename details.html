@@ -1,5 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter Content</title>
+    <style>
+        /* ... (Your existing CSS here) ... */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f8f9fa; 
+            margin: 0; 
+            padding: 40px 0; 
+            color: #343a40; 
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .header-bar {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .back-button {
+            font-size: 1.5em;
+            text-decoration: none;
+            color: #007bff;
+            margin-right: 20px;
+            transition: color 0.2s;
+            font-weight: 600;
+        }
+        .back-button:hover {
+            color: #0056b3;
+        }
+        h1 {
+            font-size: 2em;
+            font-weight: 600;
+            margin: 0;
+            color: #343a40;
+        }
+        .content-viewer {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        #content-iframe {
+            border: none;
+            width: 100%;
+            height: 700px;
+        }
+        /* Footer signature style (for reference if you are using external style.css) */
+        .footer-signature {
+            text-align: center;
+            font-size: 0.7em; 
+            color: #adb5bd; 
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-bar">
+        <a href="index.html" class="back-button">&lsaquo; Back to Chapters</a>
+        <h1 id="chapter-title">Loading...</h1>
+    </div>
+    
+    <div class="content-viewer" id="content-viewer">
+        <iframe id="content-iframe" frameborder="0"></iframe>
+    </div>
+</div>
+
 <script>
-    // Function to get query parameters (like folder ID and name) from the URL
     function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(param);
@@ -9,23 +87,17 @@
     const chapterName = getQueryParam('name');
 
     if (folderId && chapterName) {
-        // Set the custom title using the chapter name
         document.getElementById('chapter-title').textContent = decodeURIComponent(chapterName);
         document.title = decodeURIComponent(chapterName) + " Content";
 
-        // Set the iframe source using the folder ID
         const iframe = document.getElementById('content-iframe');
-        
-        // Use the default list view which is the most compact
         const driveURL = `https://drive.google.com/embeddedfolderview?id=${folderId}#list`;
-        
         iframe.src = driveURL;
 
     } else {
         document.getElementById('chapter-title').textContent = "Chapter Not Found";
-        // **FIX: Improved error message with a link back to the dashboard**
-        // Note: The ID 'content-viewer' is used in your uploaded file, but a class is generally better. 
-        // We'll stick to the ID for consistency with your existing code.
+        // FIX: The document.getElementById('content-viewer') will now work. 
+        // IMPROVEMENT: Added a helpful link back to the main page.
         document.getElementById('content-viewer').innerHTML = '<p style="padding: 20px; text-align: center;">Error: Chapter content could not be loaded. Please return to the <a href="index.html">Chapters Dashboard</a> to select content.</p>';
     }
 </script>
