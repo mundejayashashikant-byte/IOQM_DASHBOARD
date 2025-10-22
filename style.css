@@ -1,0 +1,145 @@
+/* style.css - Common and Index Styles */
+
+/* Base Styles */
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background-color: #f8f9fa; 
+    margin: 0; 
+    padding: 40px 0; 
+    color: #343a40; 
+}
+.container { 
+    max-width: 1280px; 
+    margin: 0 auto; 
+    padding: 0 20px; 
+}
+h1 { 
+    font-size: 2.2em; 
+    font-weight: 600; 
+    margin-bottom: 30px; 
+    color: #343a40; 
+}
+
+/* Index Page (Chapter Grid) Styles */
+.chapters-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 20px; 
+}
+.chapter-card {
+    background: #ffffff; 
+    padding: 20px; 
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); 
+    border: 1px solid #e9ecef;
+    cursor: pointer; 
+    transition: all 0.2s ease-in-out; 
+    position: relative;
+    min-height: 120px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between;
+    text-decoration: none; 
+    color: inherit; 
+}
+.chapter-card:hover { 
+    transform: translateY(-3px); 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+}
+.card-header { 
+    margin-bottom: 15px; 
+}
+.chapter-tag { 
+    font-size: 0.8em; 
+    font-weight: 700; 
+    color: #007bff; 
+    text-transform: uppercase; 
+    margin-bottom: 5px; 
+    display: block; 
+}
+.chapter-title { 
+    font-size: 1.15em; 
+    font-weight: 600; 
+    margin: 0; 
+    color: #343a40; 
+}
+.progress-status { 
+    font-size: 0.9em; 
+    color: #6c757d; 
+    margin-top: 5px; 
+}
+.arrow {
+    position: absolute; 
+    top: 50%; 
+    right: 20px; 
+    transform: translateY(-50%);
+    font-size: 1.2em; 
+    color: #ced4da;
+    transition: color 0.2s;
+}
+.chapter-card:hover .arrow { 
+    color: #007bff; 
+}
+
+/* Placeholder Styling */
+.chapter-card[data-folder-id^="PLACEHOLDER_ID_"] {
+    border-left: 5px solid #ffc107; 
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+.chapter-card[data-folder-id^="PLACEHOLDER_ID_"]:hover {
+    transform: none; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); 
+}
+.chapter-card[data-folder-id^="PLACEHOLDER_ID_"] .arrow {
+    color: #ffc107 !important;
+}
+
+/* Details Page (Content Viewer) Styles */
+.header-bar {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+.back-button {
+    /* FIX: Reduced font size to make it smaller and perfect */
+    font-size: 1.0em; 
+    text-decoration: none;
+    color: #007bff;
+    margin-right: 20px;
+    transition: color 0.2s;
+    font-weight: 600;
+}
+.back-button:hover {
+    color: #0056b3;
+}
+.details-title {
+    font-size: 2em;
+    font-weight: 600;
+    margin: 0;
+    color: #343a40;
+}
+.content-viewer {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden; 
+}
+#content-iframe {
+    border: none;
+    width: 100%;
+    height: 80vh; 
+    min-height: 600px;
+}
+
+/* Footer Signature Style */
+.footer-signature {
+    text-align: center;
+    font-size: 0.7em; /* Small handwriting */
+    color: #adb5bd; /* Light grey color */
+    margin-top: 30px;
+}

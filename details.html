@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter Content</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="header-bar">
+        <a href="index.html" class="back-button" aria-label="Go back to the chapter listing page">&lsaquo; Back to Chapters</a>
+        <h1 id="chapter-title" class="details-title">Loading...</h1>
+    </div>
+    
+    <div class="content-viewer">
+        <iframe id="content-iframe" frameborder="0" title="Embedded Google Drive Folder Content"></iframe>
+    </div>
+</div>
+
+<div class="footer-signature">
+    developed by meoponly
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        const folderId = getQueryParam('id');
+        const chapterName = getQueryParam('name');
+
+        if (folderId && chapterName) {
+            const decodedChapterName = decodeURIComponent(chapterName);
+
+            document.getElementById('chapter-title').textContent = decodedChapterName;
+            document.title = decodedChapterName + " Content";
+
+            const iframe = document.getElementById('content-iframe');
+            iframe.title = `${decodedChapterName} Content Viewer`; 
+            
+            const driveURL = `https://drive.google.com/embeddedfolderview?id=${folderId}#list`;
+            iframe.src = driveURL;
+
+        } else {
+            // *EXISTING ERROR HANDLING KEPT AS REQUESTED*
+            document.getElementById('chapter-title').textContent = "Chapter Not Found";
+            document.querySelector('.content-viewer').innerHTML = '<p style="padding: 20px; text-align: center;">Error: Chapter content could not be loaded.</p>';
+        }
+    });
+</script>
+
+</body>
+</html>
