@@ -4,102 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chapter Content</title>
-    <style>
-        /* ... (Your existing CSS here) ... */
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f8f9fa; 
-            margin: 0; 
-            padding: 40px 0; 
-            color: #343a40; 
-        }
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        .header-bar {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-        .back-button {
-            font-size: 1.5em;
-            text-decoration: none;
-            color: #007bff;
-            margin-right: 20px;
-            transition: color 0.2s;
-            font-weight: 600;
-        }
-        .back-button:hover {
-            color: #0056b3;
-        }
-        h1 {
-            font-size: 2em;
-            font-weight: 600;
-            margin: 0;
-            color: #343a40;
-        }
-        .content-viewer {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-        }
-        #content-iframe {
-            border: none;
-            width: 100%;
-            height: 700px;
-        }
-        /* Footer signature style (for reference if you are using external style.css) */
-        .footer-signature {
-            text-align: center;
-            font-size: 0.7em; 
-            color: #adb5bd; 
-            margin-top: 30px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
     <div class="header-bar">
-        <a href="index.html" class="back-button">&lsaquo; Back to Chapters</a>
-        <h1 id="chapter-title">Loading...</h1>
+        <a href="index.html" class="back-button" aria-label="Go back to the chapter listing page">&lsaquo; Back to Chapters</a>
+        <h1 id="chapter-title" class="details-title">Loading...</h1>
     </div>
     
-    <div class="content-viewer" id="content-viewer">
-        <iframe id="content-iframe" frameborder="0"></iframe>
+    <div class="content-viewer">
+        <iframe id="content-iframe" frameborder="0" title="Embedded Google Drive Folder Content"></iframe>
     </div>
 </div>
 
+<div class="footer-signature">
+    developed by meoponly
+</div>
+
 <script>
-    function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
 
-    const folderId = getQueryParam('id');
-    const chapterName = getQueryParam('name');
+        const folderId = getQueryParam('id');
+        const chapterName = getQueryParam('name');
 
-    if (folderId && chapterName) {
-        document.getElementById('chapter-title').textContent = decodeURIComponent(chapterName);
-        document.title = decodeURIComponent(chapterName) + " Content";
+        if (folderId && chapterName) {
+            const decodedChapterName = decodeURIComponent(chapterName);
 
-        const iframe = document.getElementById('content-iframe');
-        const driveURL = `https://drive.google.com/embeddedfolderview?id=${folderId}#list`;
-        iframe.src = driveURL;
+            document.getElementById('chapter-title').textContent = decodedChapterName;
+            document.title = decodedChapterName + " Content";
 
-    } else {
-        document.getElementById('chapter-title').textContent = "Chapter Not Found";
-        // FIX: The document.getElementById('content-viewer') will now work. 
-        // IMPROVEMENT: Added a helpful link back to the main page.
-        document.getElementById('content-viewer').innerHTML = '<p style="padding: 20px; text-align: center;">Error: Chapter content could not be loaded. Please return to the <a href="index.html">Chapters Dashboard</a> to select content.</p>';
-    }
+            const iframe = document.getElementById('content-iframe');
+            iframe.title = `${decodedChapterName} Content Viewer`; 
+            
+            const driveURL = `https://drive.google.com/embeddedfolderview?id=${folderId}#list`;
+            iframe.src = driveURL;
+
+        } else {
+            // *EXISTING ERROR HANDLING KEPT AS REQUESTED*
+            document.getElementById('chapter-title').textContent = "Chapter Not Found";
+            document.querySelector('.content-viewer').innerHTML = '<p style="padding: 20px; text-align: center;">Error: Chapter content could not be loaded.</p>';
+        }
+    });
 </script>
 
 </body>
