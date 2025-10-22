@@ -14,7 +14,7 @@ const chapterData = [
   { id: "CH-10", name: "Algebra (Sequence and Series)", folderId: "17dfa5sCTiDCT_tgc5WDc-QFxW0_CQXU_", lectureProgress: "0/9", dppProgress: "0/9" },
   { id: "CH-11", name: "Recurrence Relation", folderId: "1_HN5YMnsAGR5-YdxkdzWwQDAIY3AYdxE", lectureProgress: "0/3", dppProgress: "0/2" },
   { id: "CH-12", name: "Inequalities", folderId: "1M0gRtFN9nLOsEeFn4qHkaF5ef_Lw_TvF", lectureProgress: "0/7", dppProgress: "0/6" },
-  { id: "CH-13", name: "Geometry (Triangles)", folderId: "1qxo0U8VdXqO6QdO2l0nB0KL_jYV9aE6L", lectureProgress: "4/7", dppProgress: "0/7" },
+  { id: "CH-13", name: "Geometry (Triangles)", folderId: "1qxo0U8VdXqO6QdO0l0nB0KL_jYV9aE6L", lectureProgress: "4/7", dppProgress: "0/7" },
   { id: "CH-14", name: "Geometry (Quadrilaterals and...", folderId: "1G26UxZQUYa095gyemGPouehBfPptmsoH", lectureProgress: "0/6", dppProgress: "0/5" },
   { id: "CH-15", name: "Geometry (Coordinate...", folderId: "1M5Jyepw-pgMrtrJR-DOgYKWWJdKaOucV", lectureProgress: "0/2", dppProgress: "0/1" },
   { id: "CH-16", name: "Binomial Theorem", folderId: "1Sx0ljTOvESvSE2zAvA4tw3bIE-MvqfxF", lectureProgress: "0/4", dppProgress: "0/3" },
@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chaptersGrid = document.getElementById("chapters-grid");
 
     chapterData.forEach(chapter => {
+      // Use <a> tag for correct semantics, accessibility, and keyboard navigation
       const link = document.createElement("a");
       link.className = "chapter-card";
       link.dataset.folderId = chapter.folderId;
@@ -40,17 +41,18 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Determine if the link is valid (not a placeholder)
       const isValidLink = chapter.folderId && !chapter.folderId.startsWith('PLACEHOLDER_ID_');
-
-      if (isValidLink) {
-          // Set the direct URL for valid links
-          link.href = `details.html?id=${chapter.folderId}&name=${encodeURIComponent(chapter.name)}`;
-      } else {
-          // Use '#' for invalid links, and visually/programmatically disable them
-          link.href = "#";
+      
+      // Set the href based on validity
+      link.href = isValidLink 
+          ? `details.html?id=${chapter.folderId}&name=${encodeURIComponent(chapter.name)}` 
+          : "#";
+      
+      // Add a class for visual/accessibility feedback if disabled
+      if (!isValidLink) {
           link.classList.add('chapter-card--disabled'); 
           link.setAttribute('aria-disabled', 'true');
       }
-      
+
       // Build the progress status HTML
       let statusHTML = '';
       if (chapter.lectureProgress || chapter.dppProgress) {
@@ -60,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
           statusHTML += '</div>';
       }
 
-      // Construct the card inner HTML
+      // Construct the card inner HTML (using the structure from the original prompt)
       link.innerHTML = `
         <div class="card-header">
           <span class="chapter-tag">${chapter.id}</span>
@@ -71,10 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
       
       if (!isValidLink) {
-          // Only attach a click listener to placeholder cards to prevent navigation
+          // Attach click handler only to invalid links to prevent navigation
           link.addEventListener('click', function(e) {
-              e.preventDefault(); // Stop the link from navigating.
-              // NO console.error() HERE - message is now completely removed.
+              e.preventDefault(); // Stop the link from navigating to '#'
           });
       }
 
