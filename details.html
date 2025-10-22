@@ -1,56 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter Content</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<div class="container">
-    <div class="header-bar">
-        <a href="index.html" class="back-button" aria-label="Go back to the chapter listing page">&lsaquo; Back to Chapters</a>
-        <h1 id="chapter-title" class="details-title">Loading...</h1>
-    </div>
-    
-    <div class="content-viewer">
-        <iframe id="content-iframe" frameborder="0" title="Embedded Google Drive Folder Content"></iframe>
-    </div>
-</div>
-
-<div class="footer-signature">
-    developed by meoponly
-</div>
-
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
+    // Function to get query parameters (like folder ID and name) from the URL
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
 
-        const folderId = getQueryParam('id');
-        const chapterName = getQueryParam('name');
+    const folderId = getQueryParam('id');
+    const chapterName = getQueryParam('name');
 
-        if (folderId && chapterName) {
-            const decodedChapterName = decodeURIComponent(chapterName);
+    if (folderId && chapterName) {
+        // Set the custom title using the chapter name
+        document.getElementById('chapter-title').textContent = decodeURIComponent(chapterName);
+        document.title = decodeURIComponent(chapterName) + " Content";
 
-            document.getElementById('chapter-title').textContent = decodedChapterName;
-            document.title = decodedChapterName + " Content";
+        // Set the iframe source using the folder ID
+        const iframe = document.getElementById('content-iframe');
+        
+        // Use the default list view which is the most compact
+        const driveURL = `https://drive.google.com/embeddedfolderview?id=${folderId}#list`;
+        
+        iframe.src = driveURL;
 
-            const iframe = document.getElementById('content-iframe');
-            iframe.title = `${decodedChapterName} Content Viewer`; 
-            
-            const driveURL = `https://drive.google.com/embeddedfolderview?id=${folderId}#list`;
-            iframe.src = driveURL;
-
-        } else {
-            // *EXISTING ERROR HANDLING KEPT AS REQUESTED*
-            document.getElementById('chapter-title').textContent = "Chapter Not Found";
-            document.querySelector('.content-viewer').innerHTML = '<p style="padding: 20px; text-align: center;">Error: Chapter content could not be loaded.</p>';
-        }
-    });
+    } else {
+        document.getElementById('chapter-title').textContent = "Chapter Not Found";
+        // **FIX: Improved error message with a link back to the dashboard**
+        // Note: The ID 'content-viewer' is used in your uploaded file, but a class is generally better. 
+        // We'll stick to the ID for consistency with your existing code.
+        document.getElementById('content-viewer').innerHTML = '<p style="padding: 20px; text-align: center;">Error: Chapter content could not be loaded. Please return to the <a href="index.html">Chapters Dashboard</a> to select content.</p>';
+    }
 </script>
 
 </body>
