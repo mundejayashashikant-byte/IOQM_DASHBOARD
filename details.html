@@ -1,5 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter Content</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f8f9fa; 
+            margin: 0; 
+            padding: 40px 0; 
+            color: #343a40; 
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .header-bar {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        /* FIX: Adjusted font size for the "Back to Chapters" button */
+        .back-button {
+            font-size: 1.0em; 
+            text-decoration: none;
+            color: #007bff;
+            margin-right: 20px;
+            transition: color 0.2s;
+            font-weight: 600;
+        }
+        .back-button:hover {
+            color: #0056b3;
+        }
+        h1 {
+            font-size: 2em;
+            font-weight: 600;
+            margin: 0;
+            color: #343a40;
+        }
+        .content-viewer {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        #content-iframe {
+            border: none;
+            width: 100%;
+            height: 700px;
+        }
+        /* Style for the signature at the bottom */
+        .footer-signature {
+            text-align: center;
+            font-size: 0.7em; 
+            color: #adb5bd; 
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-bar">
+        <a href="index.html" class="back-button">&lsaquo; Back to Chapters</a>
+        <h1 id="chapter-title">Loading...</h1>
+    </div>
+    
+    <div class="content-viewer">
+        <iframe id="content-iframe" frameborder="0"></iframe>
+    </div>
+</div>
+
+<div class="footer-signature">
+    developed by meoponly
+</div>
+
 <script>
-    // Function to get query parameters (like folder ID and name) from the URL
     function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(param);
@@ -9,19 +91,21 @@
     const chapterName = getQueryParam('name');
 
     if (folderId && chapterName) {
-        // Set the custom title using the chapter name
         document.getElementById('chapter-title').textContent = decodeURIComponent(chapterName);
         document.title = decodeURIComponent(chapterName) + " Content";
 
-        // Set the iframe source using the folder ID
         const iframe = document.getElementById('content-iframe');
+        // The drive URL for the embedded folder view
         const driveURL = `https://drive.google.com/embeddedfolderview?id=${folderId}#list`;
         iframe.src = driveURL;
 
     } else {
         document.getElementById('chapter-title').textContent = "Chapter Not Found";
         
-        // **CRITICAL FIX:** Using querySelector to target the element by its class name
-        document.querySelector('.content-viewer').innerHTML = '<p style="padding: 20px; text-align: center;">Error: Chapter content could not be loaded. Please return to the <a href="index.html">Chapters Dashboard</a> to select content.</p>';
+        // **CRITICAL FIX:** This correctly targets the div using its existing class name.
+        document.querySelector('.content-viewer').innerHTML = '<p style="padding: 20px; text-align: center;">Error: Chapter content could not be loaded. Please return to the <a href="index.html">Chapters Dashboard</a> to select content.</a></p>';
     }
 </script>
+
+</body>
+</html>
